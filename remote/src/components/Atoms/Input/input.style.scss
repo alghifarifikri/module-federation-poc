@@ -1,0 +1,27 @@
+input {
+  @apply bg-transparent text-secondary-navy font-bold;
+}
+
+.v-autocomplete {
+  .v-field {
+    .v-field__input {
+      input {
+        @apply py-0 #{!important};
+      }
+    }
+  }
+}
+.v-select__selection-text, .v-autocomplete__selection-text {
+  @apply font-bold;
+}
+.v-field__outline {
+  --v-field-border-opacity: 100;
+}
+
+.v-radio-group {
+  .v-input__control {
+    .v-label {
+      margin-inline-start: 0px !important;
+    }
+  }
+}
