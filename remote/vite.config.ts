@@ -2,7 +2,9 @@ import { federation } from "@module-federation/vite";
 import { createEsBuildAdapter } from "@softarc/native-federation-esbuild";
 import pluginVue from "esbuild-plugin-vue-next";
 import { defineConfig } from 'vite'
+import { fileURLToPath, URL } from 'url'
 import vue from '@vitejs/plugin-vue'
+import { resolve } from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ command, mode }) => {
@@ -11,6 +13,42 @@ export default defineConfig(async ({ command, mode }) => {
       fs: {
         allow: ["."],
       },
+    },
+    resolve: {
+      alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+      dedupe: ['vue']
+    },
+    build:{
+      rollupOptions: {
+        external: ['vue'],
+        resolve: {
+          alias: {
+            vue: resolve(__dirname, './node_modules/vue'),
+            '@vue': resolve(__dirname, './node_modules/@vue')
+          },
+          dedupe: ['vue', '@vue'],
+        },
+        output: {
+          globals: {
+            vue: 'vue'
+          }
+        }
+      }
+    },
+    rollupOptions: {
+      external: ['vue'],
+      resolve: {
+        alias: {
+          vue: resolve(__dirname, './node_modules/vue'),
+          '@vue': resolve(__dirname, './node_modules/@vue')
+        },
+        dedupe: ['vue', '@vue'],
+      },
+      output: {
+        globals: {
+          vue: 'vue'
+        }
+      }
     },
     plugins: [
       await federation({

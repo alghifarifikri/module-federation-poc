@@ -17,6 +17,22 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    resolve: {
+      dedupe: ['vue', '@vue']
+    },
+    build: {
+      minify: 'esbuild',
+      cssCodeSplit: true,
+      cssMinify: true,
+      rollupOptions: {
+        external: ['vue', '@vue'],
+        output: {
+          globals: {
+            vue: 'Vue'
+          }
+        }
+      }
+    },
     server: {
       fs: {
         allow: ["."],
@@ -40,3 +56,7 @@ export default defineNuxtConfig({
     }
   }
 })
+function resolve(__dirname: string, arg1: string): string {
+  throw new Error("Function not implemented.");
+}
+
